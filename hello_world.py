@@ -47,4 +47,5 @@ output = model.generate(
     input_ids=token_ids,
     max_new_tokens=100,
 )
+
 print(tokenizer.batch_decode(output)[0])
