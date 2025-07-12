@@ -7,3 +7,4 @@ def evaluate_performance(y_true, y_pred):
         target_names=['Negative Review', 'Positive Review']
     )
     print(performance)
+
