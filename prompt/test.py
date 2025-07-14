@@ -18,7 +18,7 @@ pipeline = pipeline(
     tokenizer=tokenizer,
     return_full_text=False,
     max_new_tokens=500,
-    do_sample=False,
+    do_sample=True,
 )
 
 message = [
@@ -28,5 +28,5 @@ message = [
     }
 ]
 
-output = pipeline(message)
+output = pipeline(message, temperature=2.0, top_p=0.5)
 print(output)
