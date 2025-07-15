@@ -174,3 +174,4 @@ cython_debug/
 .pypirc
 
 /.idea
+/advanced_techniques/Phi-3-mini-4k-instruct-fp16.gguf
