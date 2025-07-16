@@ -1,7 +1,6 @@
 from langchain import PromptTemplate
 from langchain_community.llms import LlamaCpp
 
-
 model_path = "Phi-3-mini-4k-instruct-fp16.gguf"
 llm = LlamaCpp(
     model_path=model_path,
@@ -11,5 +10,19 @@ llm = LlamaCpp(
     seed=43,
     verbose=False
 )
-res = llm.invoke("Am I cool?")
+
+# # Test PromptTemplate
+template = """<s><|user|> {input_prompt}<|end|> <|assistant|>"""
+prompt = PromptTemplate(
+    template=template,
+    input_variables=["input_prompt"]
+)
+
+basic_chain = prompt | llm
+res = basic_chain.invoke(
+    {
+        "input_prompt": "Hi! My name is Maarten. What is 1 + 1? pls give me an answer with pure numbers no characters.",
+    }
+)
 print(res)
+
