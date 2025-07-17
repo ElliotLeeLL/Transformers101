@@ -171,6 +171,3 @@ res2 = llm_chain.invoke({"input_prompt": "What is my name?"})
 print(res2)
 res3 = llm_chain.invoke({"input_prompt": "What was the first question I asked?"})
 print(res3)
-
-
-
