@@ -175,3 +175,4 @@ cython_debug/
 
 /.idea
 /advanced_techniques/Phi-3-mini-4k-instruct-fp16.gguf
+/retrieval_augmented_generation/Phi-3-mini-4k-instruct-fp16.gguf
