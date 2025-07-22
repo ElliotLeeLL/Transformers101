@@ -1,3 +1,4 @@
+from pathlib import Path
 from urllib.request import urlopen
 
 from PIL import Image
@@ -15,10 +16,28 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 # Preprocessing
-car_path = "https://raw.githubusercontent.com/HandsOnLLM/Hands-On-Large-Language-Models/main/chapter09/images/car.png"
-image = Image.open(urlopen(car_path)).convert("RGB")
-inputs = blip_processor(image, return_tensors="pt").to(device, torch.float16)
+# car_path = "https://raw.githubusercontent.com/HandsOnLLM/Hands-On-Large-Language-Models/main/chapter09/images/car.png"
+# image = Image.open(urlopen(car_path)).convert("RGB")
+# inputs = blip_processor(image, return_tensors="pt").to(device, torch.float16)
+#
+# text = "Her vocalization was remarkably melodic"
+# token_ids = blip_processor(image, text=text, return_tensors="pt").to(device, torch.float16)
+# print(token_ids)
 
-text = "Her vocalization was remarkably melodic"
-token_ids = blip_processor(image, text=text, return_tensors="pt").to(device, torch.float16)
-print(token_ids)
+# image_path = Path("my_image.jpg")
+# image = Image.open(image_path).convert("RGB")
+# inputs = blip_processor(image, return_tensors="pt").to(device, torch.float16)
+
+# Load Rorschach image
+url = "https://upload.wikimedia.org/wikipedia/commons/7/70/Rorschach_blot_01.jpg"
+image = Image.open(urlopen(url)).convert("RGB")
+inputs = blip_processor(image, return_tensors="pt").to(device, torch.float16)
+image.show()
+
+generated_ids = model.generate(**inputs, max_new_tokens=20)
+generated_text = blip_processor.batch_decode(
+    generated_ids,
+    skip_special_tokens=True,
+)
+generated_text = generated_text[0].strip()
+print(generated_text)
