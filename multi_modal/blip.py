@@ -29,9 +29,9 @@ model.to(device)
 # inputs = blip_processor(image, return_tensors="pt").to(device, torch.float16)
 
 # Load Rorschach image
-url = "https://upload.wikimedia.org/wikipedia/commons/7/70/Rorschach_blot_01.jpg"
-image = Image.open(urlopen(url)).convert("RGB")
-inputs = blip_processor(image, return_tensors="pt").to(device, torch.float16)
+image = Image.open(Path("cat.jpg")).convert("RGB")
+prompt = "Question: Write down what you see in this picture. Answer: a cat lie down on the white floor. Question: Can you describe the fur of the cat? Answer:"
+inputs = blip_processor(image, text=prompt, return_tensors="pt").to(device, torch.float16)
 image.show()
 
 generated_ids = model.generate(**inputs, max_new_tokens=20)
