@@ -177,3 +177,4 @@ cython_debug/
 /advanced_techniques/Phi-3-mini-4k-instruct-fp16.gguf
 /retrieval_augmented_generation/Phi-3-mini-4k-instruct-fp16.gguf
 /embedding_model/model
+/fine_tuning_classification/model
