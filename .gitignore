@@ -180,3 +180,4 @@ cython_debug/
 /fine_tuning_classification/model
 /fine_tuning_classification/checkpoints
 /fine_tuning_classification/ner_model
+/fine_tuning_classification/mlm
