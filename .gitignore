@@ -181,3 +181,5 @@ cython_debug/
 /fine_tuning_classification/checkpoints
 /fine_tuning_classification/ner_model
 /fine_tuning_classification/mlm
+/fine_tuning_intruction/TinyLlama-1.1B-qlora
+/fine_tuning_intruction/results
