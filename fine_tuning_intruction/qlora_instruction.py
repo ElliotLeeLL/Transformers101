@@ -5,7 +5,7 @@ from trl import SFTTrainer
 
 
 def format_prompt(example):
-    chat = example['message']
+    chat = example['messages']
     prompt = template_tokenizer.apply_chat_template(chat, tokenize=False)
     return {"text": prompt}
 
@@ -63,13 +63,14 @@ training_arguments = TrainingArguments(
     fp16=True,
     gradient_checkpointing=True
 )
-
+tokenized_dataset = dataset.map(
+    lambda x: tokenizer(x["text"], truncation=True, padding="max_length"),
+    batched=True
+)
 trainer = SFTTrainer(
     model=model,
-    train_dataset=dataset,
-    tokenizer=tokenizer,
+    train_dataset=tokenized_dataset,
     args=training_arguments,
-    max_seq_length=512,
     peft_config=peft_config,
 )
 
@@ -77,13 +78,23 @@ trainer.train()
 
 trainer.model.save_pretrained("TinyLlama-1.1B-qlora")
 
-model = AutoPeftModelForCausalLM.from_pretrained(
-    "TinyLlama-1.1B-qlora",
-    low_cpu_mem_usage=True,
+# model = AutoPeftModelForCausalLM.from_pretrained(
+# #     "TinyLlama-1.1B-qlora",
+# #     base_model_name_or_path="TinyLlama/TinyLlama-1.1B-intermediate-step-1431k-3T",
+# #     low_cpu_mem_usage=True,
+# #     device_map="auto",
+# # )
+
+base_model = AutoModelForCausalLM.from_pretrained(
+    "TinyLlama/TinyLlama-1.1B-intermediate-step-1431k-3T",
     device_map="auto",
+    quantization_config=bnb_config,
 )
+model = get_peft_model(base_model, peft_config)
+model.load_adapter("TinyLlama-1.1B-qlora", adapter_name="qlora_adapter")
+
 merged_model = model.merge_and_unload()
-prompt="""<|user|>
+prompt = """<|user|>
 Tell me something about Large Language Models.</s>
 <|assistant|>
 """
